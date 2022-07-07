@@ -1,3 +1,15 @@
+#include<stdio.h>
+#include<unistd.h>
+#include<semaphore.h>
+#include<stdlib.h>
+#include<sys/ipc.h>
+#include<sys/shm.h>
+
+#define N 15
+#define KEY 13
+#define SIZE 4096
+
+main(int argc, char *argv[])
 {
 
    int shmid;
@@ -52,9 +64,9 @@
 
   if(pid == 0)  // producer process
   {
+    
 
-
-
+     
 
      while(1)
      {
@@ -111,4 +123,24 @@ else  // consumer process
            exit(1);
          }
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  13,1          36%
+
+           printf("CONSUMER consumes an item\n" );
+
+        if(sem_post(mutex) <0)
+         {
+           perror("cannot decrement semaphore");
+           exit(1);
+         }
+
+     if(sem_post(empty) < 0)
+      {
+
+          perror("cannot increment the semaphore");
+          exit(1);
+      }
+
+   }
+
+}
+
+}
